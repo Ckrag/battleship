@@ -21,6 +21,20 @@ public class BattleshipGame {
         //not sure if this needs anything.
     }
 
+    /**
+     * Returns array of ships where ship length is the key and amount is the value
+     * @return array of ships
+     */
+    public int[] getShips(){
+        int ships[] = new int[6];
+
+        ships[2] = this.size / 3;
+        ships[3] = this.size / 4;
+        ships[4] = this.size / 5;
+        ships[5] = this.size / 8;
+
+        return ships;
+    }
 
     /**
      * Returns true if the player has won
