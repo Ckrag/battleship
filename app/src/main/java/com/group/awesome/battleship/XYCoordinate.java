@@ -7,4 +7,10 @@ package com.group.awesome.battleship;
 public class XYCoordinate {
     public int x;
     public int y;
+
+    public XYCoordinate(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
 }
