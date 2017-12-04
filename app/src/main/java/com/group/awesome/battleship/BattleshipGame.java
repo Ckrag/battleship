@@ -12,17 +12,31 @@ public class BattleshipGame {
     // 3 - ship hit
     public int grid1[][];
     public int grid2[][];
+    public int size;
 
-    public BattleshipGame(){
+    public BattleshipGame(int size){
+        this.grid1 = new int[size][size];
+        this.grid2 = new int[size][size];
+        this.size = size;
         //not sure if this needs anything.
     }
 
+
     /**
-     * Returns the player number of the winner or 0 if no winner has been found.
-     * @return player winner
+     * Returns true if the player has won
+     * @param player to check
+     * @return won
      */
-    public int getWinner(){
-        return 0;
+    public boolean hasWon(int player){
+        int grid[][] = player == 1 ? grid1 : grid2;
+        for (int row[] : grid){
+            for (int pos : row){
+                if (pos == 2){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 
@@ -31,17 +45,34 @@ public class BattleshipGame {
      * Returns true if a winner has been found
      * @return winner found
      */
-    public boolean hasWinner(){
-        return getWinner() != 0;
+    public boolean foundWinner(){
+        return (hasWon(1) || hasWon(2));
     }
 
     /**
      * Fire at a position of a player's grid.
      * @param player being fired at
      * @param coords position on grid
+     * @return new PosState
      */
-    public void fireAtPos(int player,XYCoordinate coords){
-
+    public int fireAtPos(int player,XYCoordinate coords){
+        int grid[][] = player == 1 ? grid1 : grid2;
+        int posState = grid[coords.x][coords.y];
+        switch (posState) {
+            case 0:
+                grid[coords.x][coords.y] = 1;
+                break;
+            case 1:
+                throw new Error("Already hit");
+            case 2:
+                grid[coords.x][coords.y] = 3;
+                break;
+            case 3:
+                throw new Error("Already hit");
+            default:
+                throw new Error("PosState not valid - " + posState);
+        }
+        return posState;
     }
 
     /**
@@ -49,8 +80,14 @@ public class BattleshipGame {
      * @param player placing ship
      * @param coords coordinates ship is taking
      */
-    public void addShip(int player, XYCoordinate coords[]){
-
+    public void addShip(int player, int shipsize, XYCoordinate coords[]){
+        int grid[][] = player == 1 ? grid1 : grid2;
+        if (!isShipValid(shipsize, coords)){
+            throw new IllegalArgumentException("Ship is not valid.");
+        }
+        for (XYCoordinate coord : coords){
+            grid[coord.x][coord.y] = 2;
+        }
     }
 
     /**
@@ -58,9 +95,61 @@ public class BattleshipGame {
      * @param coords coordinates of ship
      * @return is valid.
      */
-    public boolean isShipValid(XYCoordinate coords[]){
+    public boolean isShipValid(int size, XYCoordinate coords[]){
         // is ship built in a valid way?
-        return false;
+        if (coords.length > size){
+            throw new IllegalArgumentException("Ship is too large.");
+        } else if (coords.length < size){
+            throw new IllegalArgumentException("Ship is too small.");
+        }
+
+        // compare all coordinates with the first to check if ship is horizontal or vertical
+        boolean isHoriz = true;
+        boolean isVert = true;
+        XYCoordinate pos = coords[0];
+        for (XYCoordinate coord : coords){
+            if (coord.x != pos.x){
+                isVert = false;
+            }
+            if (coord.y != pos.y){
+                isHoriz = false;
+            }
+        }
+
+        // ship is invalid if neither are true.
+        if (!isHoriz && !isVert){
+            throw new IllegalArgumentException("Ship must be horizontal or vertical.");
+        }
+
+        //check if points are all adjacent by comparing distance between outer points.
+        int low = size;
+        int high = 0;
+        if (isHoriz){
+            for (XYCoordinate coord : coords){
+                if (coord.x < low){
+                    low = coord.x;
+                }
+                if (coord.x > high){
+                    high = coord.x;
+                }
+            }
+        } else { // vertical
+            for (XYCoordinate coord : coords){
+                if (coord.y < low){
+                    low = coord.y;
+                }
+                if (coord.y > high){
+                    high = coord.y;
+                }
+            }
+        }
+
+        if ((high-low) != (size-1)){
+            throw new IllegalArgumentException("Coordinates are no adjacent.");
+        }
+
+        // ship is valid
+        return true;
     }
 
 
