@@ -7,13 +7,18 @@
     tools:context="com.group.awesome.battleship.MainActivity">
 
     <GridLayout
+        android:background="@android:color/holo_blue_dark"
         android:id="@+id/game_grid"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/next_turn_btn"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:useDefaultMargins="false"
+        android:alignmentMode="alignBounds"
+        android:rowOrderPreserved="false"
+        />
 
     <Button
         android:id="@+id/next_turn_btn"
@@ -21,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:text="NEXT TURN"
+        android:text="Select Size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
