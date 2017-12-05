@@ -10,7 +10,7 @@ public class SudokuSolverTest {
     @Test
     public void testSolver(){
         SudokuBoard board = new SudokuBoard();
-        SudokuSolver solver = new SudokuSolver(board);
+        SudokuSolver solver = new SudokuSolver();
         solver.solve(board,0,0);
         System.out.println(board);
     }

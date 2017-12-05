@@ -53,9 +53,12 @@ public class SudokuBoardTest {
         //board.grid[0][1] = 0;
         board.setVal(1,0,0);
 
-        System.out.println("val: " + board.getVal(1, 0));
+        //System.out.println("val: " + board.getVal(1, 0));
+        Assert.assertEquals(board.getVal(1,0),0);
         Assert.assertTrue(board.isValidPlace(1,0,7)); // we're just checking if this move is legal, and assuming the rest of the numbers are placed legally.
+        board.createBoard(12);
+        Assert.assertEquals(board.getCount(),12);
+        //System.out.println(board);
 
-        System.out.println(board);
     }
 }

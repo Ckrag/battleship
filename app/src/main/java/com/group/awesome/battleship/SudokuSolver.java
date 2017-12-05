@@ -8,11 +8,11 @@ import java.util.Random;
 
 public class SudokuSolver {
 
-    SudokuBoard board;
+    //SudokuBoard board;
 
-    public SudokuSolver(SudokuBoard board){
-        this.board = board;
-    }
+    //public SudokuSolver(SudokuBoard board){
+    //    this.board = board;
+    //}
 
     public boolean solve(SudokuBoard board,int x,int y){
         if (board.isFull()){

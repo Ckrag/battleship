@@ -1,5 +1,7 @@
 package com.group.awesome.battleship;
 
+import java.util.Random;
+
 /**
  * Created by Jacob on 12/5/2017.
  */
@@ -9,6 +11,19 @@ public class SudokuBoard {
 
     public SudokuBoard(){
         this.grid = new int[9][9];
+    }
+
+    public void createBoard(int revealed){
+        this.grid = new int[9][9]; // empty board
+        SudokuSolver solver = new SudokuSolver();
+        solver.solve(this,0,0);
+        // remove until desired revealed amount. (note that multiple solutions will be possible.
+        while (getCount() > revealed){
+            int ran = new Random().nextInt(80) + 1;
+            int x = ran%9;
+            int y = ran/9;
+            setVal(x,y,0);
+        }
     }
 
     public boolean isFull(){
@@ -39,7 +54,7 @@ public class SudokuBoard {
         boolean col = isValidCol(x,num);
         boolean row = isValidRow(y,num);
         boolean square = isValidSquare(x,y,num);
-        boolean freeSpot = getVal(x,y) == 0;
+        boolean freeSpot = getVal(x,y) == 0; //maybe move this so we can use it for completion validation.
 
         return col && row && square && freeSpot;
     }
