@@ -1,7 +1,5 @@
 package com.group.awesome.battleship;
 
-import java.util.Arrays;
-
 /**
  * Created by Jacob on 12/5/2017.
  */
