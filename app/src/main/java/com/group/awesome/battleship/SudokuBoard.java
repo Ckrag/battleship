@@ -1,13 +1,11 @@
 package com.group.awesome.battleship;
 
-import java.util.Arrays;
-
 /**
  * Created by Jacob on 12/5/2017.
  */
 
 public class SudokuBoard {
-    int grid[][];
+    public int grid[][];
 
     public SudokuBoard(){
         this.grid = new int[9][9];
@@ -29,8 +27,9 @@ public class SudokuBoard {
     }
 
     boolean isValidRow(int y, int num){
-        for (int col[] : this.grid){
-            if (col[y] == num){
+        for (int i : this.grid[y]){
+            if (i == num){
+                System.out.println(i);
                 return false;
             }
         }
@@ -38,8 +37,8 @@ public class SudokuBoard {
     }
 
     boolean isValidCol(int x, int num){
-        for (int y : this.grid[x]){
-            if (y == num){
+        for (int row[] : this.grid){
+            if (row[x] == num){
                 return false;
             }
         }
