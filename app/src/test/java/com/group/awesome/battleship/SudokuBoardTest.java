@@ -56,6 +56,6 @@ public class SudokuBoardTest {
         System.out.println("val: " + board.getVal(1, 0));
         Assert.assertTrue(board.isValidPlace(1,0,7)); // we're just checking if this move is legal, and assuming the rest of the numbers are placed legally.
 
-        System.out.print(board);
+        System.out.println(board);
     }
 }

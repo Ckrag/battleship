@@ -22,6 +22,18 @@ public class SudokuBoard {
         return true;
     }
 
+    public int getCount(){
+        int n = 0;
+        for (int row[] : grid){
+            for (int i : row){
+                if (i > 0 ){
+                    n++;
+                }
+            }
+        }
+        return n;
+    }
+
     public boolean isValidPlace(int x, int y,int num){
 
         boolean col = isValidCol(x,num);
