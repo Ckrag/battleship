@@ -13,7 +13,7 @@ public class SudokuSolverTest {
     public void testSolver(){
         SudokuBoard board = new SudokuBoard();
         SudokuSolver solver = new SudokuSolver();
-        board.createBoard(12);
+        board.createBoard(17);
         Assert.assertTrue(solver.solve(board,0,0));
         board.createBoard(18);
         board.setVal(8,8,5);

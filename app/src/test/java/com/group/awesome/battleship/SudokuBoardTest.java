@@ -47,15 +47,15 @@ public class SudokuBoardTest {
         board.setVal(1, 0, 0);
 
         Assert.assertEquals(board.getVal(1, 0), 0);
-        board.createBoard(12);
+        board.createBoard(17);
         Assert.assertTrue(board.isValidPlace(1, 1)); // Check if this position is valid
     }
 
     @Test
     public void testIsBoardValid() {
         SudokuBoard board = new SudokuBoard();
-        board.createBoard(12);
-        Assert.assertEquals(board.getCount(),12);
+        board.createBoard(17);
+        Assert.assertEquals(board.getCount(),17);
         Assert.assertTrue(board.isBoardValid());
         // make invalid moves.
         board.setVal(8,8,1);
