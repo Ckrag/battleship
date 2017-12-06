@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import static com.group.awesome.battleship.SudokuGridView.SIZE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,60 +21,134 @@ public class MainActivity extends AppCompatActivity {
      * of the container and grid index N is fixed to its trailing edge (after padding is taken into account).
      * https://developer.android.com/reference/android/widget/GridLayout.html
      */
-    private GridLayout game_layout;
+    private SudokuGridView sudokuBoard;
 
-    private Button next_turn_btn;
+    private Button solve_btn;
+    private Button undo_btn;
+    private Button validate_btn;
+    private Button restart_btn;
 
-    private int progress = 0;
+    private LinearLayout selectorGrid;
+
+    private View.OnClickListener selectorClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            hideChooseNumber();
+
+            // insert number
+            int val = (int) view.getTag();
+            sudokuBoard.setVal((int)view.getTag(R.id.X_CORD), (int)view.getTag(R.id.Y_CORD), val);
+        }
+    };
+
+    private View.OnClickListener gridListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            showChooseNumber((int)view.getTag(R.id.X_CORD), (int)view.getTag(R.id.Y_CORD));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        game_layout = findViewById(R.id.game_grid);
-        next_turn_btn = findViewById(R.id.next_turn_btn);
+        sudokuBoard = findViewById(R.id.board_grid);
 
-        next_turn_btn.setOnClickListener(new View.OnClickListener() {
+        solve_btn = findViewById(R.id.solve_btn);
+        solve_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setupGrid(10);
+            }
+        });
+        undo_btn = findViewById(R.id.undo_btn);
+        validate_btn = findViewById(R.id.is_board_valid_btn);
+        validate_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sudokuBoard.isBoardValid()){
+                    Toast.makeText(MainActivity.this, "Board is valid!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Board is not valid!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        restart_btn = findViewById(R.id.new_board_btn);
+        restart_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sudokuBoard.createBoard(50);
+            }
+        });
+        selectorGrid = findViewById(R.id.number_selector_grid);
+
+        hideChooseNumber();
+
+        fillSelector();
+
+        getWindow().getDecorView().getRootView().addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+                view.removeOnLayoutChangeListener(this);
+                /*
+                 * Since we want the height to match the width, and we don't know the width until
+                 * the layout has been made, we have to listen for the layout before we build
+                 * the grid.
+                 */
+                setupGrid();
+                sudokuBoard.createBoard(50);
             }
         });
     }
 
-    private void askForSize(){
-
+    private void fillSelector(){
+        for (int i = 1; i <= 9; i++) {
+            Button btn = new Button(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.weight = 1;
+            btn.setLayoutParams(lp);
+            btn.setText(String.valueOf(i));
+            btn.setTag(i);
+            btn.setOnClickListener(selectorClick);
+            selectorGrid.addView(btn);
+        }
     }
-    
-    private void setStage_2(){
 
+    private void showChooseNumber(int x,int y){
+        for (int i = 0; i < selectorGrid.getChildCount(); i++) {
+            View child = selectorGrid.getChildAt(i);
+            child.setTag(R.id.X_CORD, x);
+            child.setTag(R.id.Y_CORD, y);
+        }
+        selectorGrid.setVisibility(View.VISIBLE);
     }
 
-    private void setStage_3(){
-
+    private void hideChooseNumber(){
+        selectorGrid.setVisibility(View.INVISIBLE);
     }
 
-    private void setupGrid(int n_size){
-        game_layout.setColumnCount(n_size);
-        game_layout.setRowCount(n_size);
+    private void setupGrid(){
 
         // Ensure that there's space for all buttons, by dividing size by number of buttons
-        int btn_size = getWindow().getDecorView().getRootView().getWidth() / n_size;
+        int btn_size = getWindow().getDecorView().getRootView().getWidth() / SIZE;
 
-        ViewGroup.LayoutParams lp = game_layout.getLayoutParams();
+        ViewGroup.LayoutParams lp = sudokuBoard.getLayoutParams();
         lp.height = lp.width;
-        game_layout.setLayoutParams(lp);
+        sudokuBoard.setLayoutParams(lp);
 
-        for (int i = 0; i < n_size; i++) {
-            for (int j = 0; j < n_size; j++) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
 
                 Button btn = (Button) LayoutInflater.from(this).inflate(R.layout.grid_btn, null);
                 ViewGroup.LayoutParams btnLp = new ViewGroup.LayoutParams(btn_size, btn_size);
                 btn.setLayoutParams(btnLp);
                 btn.setText(i + " x " + j);
+                btn.setTag(R.id.X_CORD, j);
+                btn.setTag(R.id.Y_CORD, i);
 
-                game_layout.addView(btn);
+                btn.setOnClickListener(gridListener);
+
+                sudokuBoard.addView(btn);
             }
         }
     }
