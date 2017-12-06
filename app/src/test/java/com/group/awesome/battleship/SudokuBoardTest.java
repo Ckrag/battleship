@@ -69,8 +69,8 @@ public class SudokuBoardTest {
     public void testUniqueSudokus(){
         SudokuBoard board = new SudokuBoard();
         SudokuSolver solver = new SudokuSolver();
-        int results[] = new int[82];
-        for (int n=0;n<100;n++) {
+        int results[] = new int[81];
+        for (int n=1;n<6;n++) {
             for (int i = 17; i < 81; i++) {
                 board.createBoard(i);
                 if (solver.hasUniqueSolution(board)){
@@ -78,10 +78,29 @@ public class SudokuBoardTest {
                 }
 
             }
+            if (n%5 == 0){
+                for (int i = 0; i<results.length; i++){
+                    System.out.println("" + i + " - " + results[i]);
+                }
+            }
         }
-        for (int i : results){
-            System.out.println(i);
+    }
+
+    @Test
+    public void testUniqueAtNum(){
+        int num = 37;
+        SudokuBoard board = new SudokuBoard();
+        SudokuSolver solver = new SudokuSolver();
+        int tries = 0;
+        while (true){
+            System.out.println(++tries);
+            board.createBoard(num);
+            if (solver.hasUniqueSolution(board)){
+                break;
+            }
         }
+        System.out.println("DONE");
+        System.out.println(board);
     }
 
 }
