@@ -51,6 +51,17 @@ public class SudokuBoard {
         return n;
     }
 
+    public boolean isBoardValid(){
+        for (int y = 0; y < 9; y++){
+            for (int x = 0; x < 9; x++){
+                if (!isValidPlace(x,y)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public boolean isValidPlace(int x, int y){
 
         boolean col = isValidCol(x);
