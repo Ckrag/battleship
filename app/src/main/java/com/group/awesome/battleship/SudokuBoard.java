@@ -1,5 +1,7 @@
 package com.group.awesome.battleship;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -49,28 +51,33 @@ public class SudokuBoard {
         return n;
     }
 
-    public boolean isValidPlace(int x, int y,int num){
+    public boolean isValidPlace(int x, int y){
 
-        boolean col = isValidCol(x,num);
-        boolean row = isValidRow(y,num);
-        boolean square = isValidSquare(x,y,num);
-        boolean freeSpot = getVal(x,y) == 0; //maybe move this so we can use it for completion validation.
+        boolean col = isValidCol(x);
+        boolean row = isValidRow(y);
+        boolean square = isValidSquare(x,y);
 
-        return col && row && square && freeSpot;
+        return col && row && square;
     }
 
-    boolean isValidRow(int y, int num){
+    boolean isValidRow(int y){
+        List<Integer> count = new ArrayList<>();
         for (int i : this.grid[y]){
-            if (i == num){
+            if (!count.contains(i)){
+                if (i != 0){ count.add(i); }
+            } else {
                 return false;
             }
         }
         return true;
     }
 
-    boolean isValidCol(int x, int num){
+    boolean isValidCol(int x){
+        List<Integer> count = new ArrayList<>();
         for (int row[] : this.grid){
-            if (row[x] == num){
+            if (!count.contains(row[x])){
+                if (row[x] != 0){ count.add(row[x]); }
+            } else {
                 return false;
             }
         }
@@ -85,13 +92,17 @@ public class SudokuBoard {
         return grid[y][x];
     }
 
-    boolean isValidSquare(int x, int y, int num){
+    boolean isValidSquare(int x, int y){
+        List<Integer> count = new ArrayList<>();
         int sqRow = x/3;
         int sqCol = y/3;
         // search section of grid
         for (int j = sqRow*3; j < sqRow+3; j++){
             for (int k = sqCol*3; k < sqCol+3; k++){
-                if (num == this.grid[j][k]){
+                int n = this.grid[j][k];
+                if (!count.contains(n)){
+                    if (n != 0){ count.add(n); }
+                } else {
                     return false;
                 }
             }

@@ -11,6 +11,8 @@ public class SudokuSolverTest {
     public void testSolver(){
         SudokuBoard board = new SudokuBoard();
         SudokuSolver solver = new SudokuSolver();
+        board.createBoard(12);
+        System.out.println(board);
         solver.solve(board,0,0);
         System.out.println(board);
     }

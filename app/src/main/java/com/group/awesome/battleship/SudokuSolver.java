@@ -19,17 +19,25 @@ public class SudokuSolver {
             return true;
         }
 
+        int nx = x < 8 ? x + 1 : 0; // next row if value is 8
+        int ny = nx == 0 ? y + 1 : y; // if we're in col 0 that means we just changed row.
+
+        if (board.getVal(x,y) != 0){
+            return solve(board,nx,ny);
+        }
+
         // add randomness here for generators.
         int numbers[] = new int[] {1,2,3,4,5,6,7,8,9};
         shuffleArray(numbers);
         for (int n : numbers){
-            if(board.isValidPlace(x, y, n)){
+            board.setVal(x,y,n);
+            if(board.isValidPlace(x, y)){ // was the move valid?
                 board.setVal(x,y,n);
-                int nx = x < 8 ? x + 1 : 0; // next row if value is 8
-                int ny = nx == 0 ? y + 1 : y; // if we're in col 0 that means we just changed row.
                 if(solve(board,nx,ny)) {
                     return true;
                 }
+                board.setVal(x,y,0);
+            } else { // move was not valid.
                 board.setVal(x,y,0);
             }
         }
