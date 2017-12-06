@@ -62,6 +62,26 @@ public class SudokuBoardTest {
         board.setVal(8,7,1);
         Assert.assertFalse(board.isBoardValid());
         SudokuSolver sol = new SudokuSolver();
-        Assert.assertFalse(sol.solve(board,0,0));
+        Assert.assertFalse(sol.solve(board,false,0,0));
     }
+
+    @Test
+    public void testUniqueSudokus(){
+        SudokuBoard board = new SudokuBoard();
+        SudokuSolver solver = new SudokuSolver();
+        int results[] = new int[82];
+        for (int n=0;n<100;n++) {
+            for (int i = 17; i < 81; i++) {
+                board.createBoard(i);
+                if (solver.hasUniqueSolution(board)){
+                    results[i]++;
+                }
+
+            }
+        }
+        for (int i : results){
+            System.out.println(i);
+        }
+    }
+
 }
