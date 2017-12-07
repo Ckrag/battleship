@@ -18,7 +18,7 @@ public class SudokuBoard {
     public void createBoard(int revealed){
         this.grid = new int[9][9]; // empty board
         SudokuSolver solver = new SudokuSolver();
-        solver.solve(this,0,0);
+        solver.solve(this,true,0,0);
         // remove until desired revealed amount. (note that multiple solutions will be possible.
         while (getCount() > revealed){
             int ran = new Random().nextInt(80) + 1;

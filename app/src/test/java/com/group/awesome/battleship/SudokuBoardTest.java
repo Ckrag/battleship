@@ -62,6 +62,45 @@ public class SudokuBoardTest {
         board.setVal(8,7,1);
         Assert.assertFalse(board.isBoardValid());
         SudokuSolver sol = new SudokuSolver();
-        Assert.assertFalse(sol.solve(board,0,0));
+        Assert.assertFalse(sol.solve(board,false,0,0));
     }
+
+    @Test
+    public void testUniqueSudokus(){
+        SudokuBoard board = new SudokuBoard();
+        SudokuSolver solver = new SudokuSolver();
+        int results[] = new int[81];
+        for (int n=1;n<6;n++) {
+            for (int i = 17; i < 81; i++) {
+                board.createBoard(i);
+                if (solver.hasUniqueSolution(board)){
+                    results[i]++;
+                }
+
+            }
+            if (n%5 == 0){
+                for (int i = 0; i<results.length; i++){
+                    System.out.println("" + i + " - " + results[i]);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testUniqueAtNum(){
+        int num = 37;
+        SudokuBoard board = new SudokuBoard();
+        SudokuSolver solver = new SudokuSolver();
+        int tries = 0;
+        while (true){
+            System.out.println(++tries);
+            board.createBoard(num);
+            if (solver.hasUniqueSolution(board)){
+                break;
+            }
+        }
+        System.out.println("DONE");
+        System.out.println(board);
+    }
+
 }
