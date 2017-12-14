@@ -15,6 +15,16 @@ public class SudokuBoard {
         this.grid = new int[9][9];
     }
 
+    public SudokuBoard copy(){
+        SudokuBoard board = new SudokuBoard();
+
+        // Ensure we get a deep copy
+        for (int i = 0; i < board.grid.length; i++) {
+            board.grid[i] = grid[i].clone();
+        }
+        return board;
+    }
+
     public void createBoard(int revealed){
         this.grid = new int[9][9]; // empty board
         SudokuSolver solver = new SudokuSolver();

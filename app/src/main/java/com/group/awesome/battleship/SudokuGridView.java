@@ -18,7 +18,6 @@ public class SudokuGridView extends GridLayout implements ISudokuBoard {
 
     public static final int SIZE = 9;
 
-
     public SudokuGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -35,15 +34,34 @@ public class SudokuGridView extends GridLayout implements ISudokuBoard {
 
     private SudokuBoard board = new SudokuBoard();
 
+    /**
+     * We keep a copy of the initial version to check if the user is allowed to change a number,
+     * since we don't allow changing the initial numbers
+     */
+    private SudokuBoard originalBoard;
+
     @Override
     public void createBoard(int revealed) {
         board.createBoard(revealed);
+        originalBoard = board.copy();
 
         for (int i = 0; i < board.grid.length; i++) {
             for (int j = 0; j < board.grid[i].length; j++) {
-                setVal(i, j, board.getVal(i, j));
+                int val = board.getVal(i, j);
+                setVal(i, j, val);
+                if(val > 0) getViewAtPos(i, j).setBackground(ContextCompat.getDrawable(getContext(), R.drawable.btn_background_locked));
             }
         }
+    }
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @return true if the initial board doesn't have a value
+     */
+    public boolean isChangable(int x, int y) {
+        return originalBoard != null && originalBoard.getVal(x, y) == 0;
     }
 
     public void setSelected(int x, int y){

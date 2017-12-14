@@ -66,17 +66,23 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             int x = (int)view.getTag(R.id.X_CORD);
             int y = (int)view.getTag(R.id.Y_CORD);
-            showChooseNumber(x, y);
 
-            clearBoardSelections();
-            sudokuBoard.setSelected(x, y);
+            if(sudokuBoard.isChangable(x, y)){
+                showChooseNumber(x, y);
+
+                clearBoardSelections();
+                sudokuBoard.setSelected(x, y);
+            }
         }
     };
 
     private void clearBoardSelections(){
         for (int i = 0; i < sudokuBoard.getBoard().grid.length; i++) {
             for (int j = 0; j < sudokuBoard.getBoard().grid[i].length; j++) {
-                sudokuBoard.setNotSelected(i, j);
+                if(sudokuBoard.isChangable(i, j)){
+                    sudokuBoard.setNotSelected(i, j);
+                }
+
             }
         }
     }
