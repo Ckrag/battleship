@@ -45,6 +45,10 @@ public class SudokuGridView extends GridLayout implements ISudokuBoard {
         board.createBoard(revealed);
         originalBoard = board.copy();
 
+        refreshLockedPositions();
+    }
+
+    private void refreshLockedPositions(){
         for (int i = 0; i < board.grid.length; i++) {
             for (int j = 0; j < board.grid[i].length; j++) {
                 int val = board.getVal(i, j);
@@ -101,7 +105,11 @@ public class SudokuGridView extends GridLayout implements ISudokuBoard {
         } else {
             setViewValue(x, y, val);
         }
+    }
 
+    public void reset(){
+        board = originalBoard.copy();
+        refreshLockedPositions();
     }
 
     private void setViewValue(int x, int y, int val) {
@@ -116,7 +124,7 @@ public class SudokuGridView extends GridLayout implements ISudokuBoard {
         return getChildAt((y*9) + x);
     }
 
-    public void refreshBoard(){
+    public void syncBoard(){
         for (int i = 0; i < board.grid.length; i++) {
             for (int j = 0; j < board.grid[0].length; j++) {
                 setVal(i,j, board.getVal(i,j));

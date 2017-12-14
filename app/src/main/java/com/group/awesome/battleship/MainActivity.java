@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.util.List;
 import java.util.Stack;
 
 import static com.group.awesome.battleship.SudokuGridView.SIZE;
@@ -30,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private Button undo_btn;
     private Button validate_btn;
     private Button restart_btn;
+    private Button new_btn;
 
     private LinearLayout selectorGrid;
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 // When solving, undoing makes no sense.
                 moves.clear();
                 new SudokuSolver().solve(sudokuBoard.getBoard(), false, 0,0);
-                sudokuBoard.refreshBoard();
+                sudokuBoard.syncBoard();
             }
         });
         undo_btn = findViewById(R.id.undo_btn);
@@ -125,11 +125,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        restart_btn = findViewById(R.id.new_board_btn);
+        restart_btn = findViewById(R.id.restart);
         restart_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                moves.clear();
+                sudokuBoard.reset();
+            }
+        });
+        new_btn = findViewById(R.id.new_board_btn);
+        new_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 sudokuBoard.createBoard(50);
+                clearBoardSelections();
             }
         });
         selectorGrid = findViewById(R.id.number_selector_grid);
