@@ -47,12 +47,13 @@ public class MainActivity extends AppCompatActivity {
             int y = (int)view.getTag(R.id.Y_CORD);
 
             selectNumber(x, y, val, true);
+            clearBoardSelections();
         }
     };
 
     private void selectNumber(int x, int y, int val, boolean isInteraction){
-        // remember move
 
+        // remember move if it was a user interaction, to avoid undo's appearing as interactions.
         if(isInteraction){
             moves.push(new Move(x, y, sudokuBoard.getVal(x, y)));
         }
@@ -63,9 +64,22 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener gridListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            showChooseNumber((int)view.getTag(R.id.X_CORD), (int)view.getTag(R.id.Y_CORD));
+            int x = (int)view.getTag(R.id.X_CORD);
+            int y = (int)view.getTag(R.id.Y_CORD);
+            showChooseNumber(x, y);
+
+            clearBoardSelections();
+            sudokuBoard.setSelected(x, y);
         }
     };
+
+    private void clearBoardSelections(){
+        for (int i = 0; i < sudokuBoard.getBoard().grid.length; i++) {
+            for (int j = 0; j < sudokuBoard.getBoard().grid[i].length; j++) {
+                sudokuBoard.setNotSelected(i, j);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
         solve_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // When solving, undoing makes no sense.
+                moves.clear();
                 new SudokuSolver().solve(sudokuBoard.getBoard(), false, 0,0);
                 sudokuBoard.refreshBoard();
             }

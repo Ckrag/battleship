@@ -1,6 +1,7 @@
 package com.group.awesome.battleship;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,11 +41,17 @@ public class SudokuGridView extends GridLayout implements ISudokuBoard {
 
         for (int i = 0; i < board.grid.length; i++) {
             for (int j = 0; j < board.grid[i].length; j++) {
-                int x = j;
-                int y = i;
-                setViewValue(x, y, board.grid[i][j]);
+                setVal(i, j, board.getVal(i, j));
             }
         }
+    }
+
+    public void setSelected(int x, int y){
+        getViewAtPos(x, y).setBackground(ContextCompat.getDrawable(getContext(), R.drawable.btn_background_select));
+    }
+
+    public void setNotSelected(int x, int y){
+        getViewAtPos(x, y).setBackground(ContextCompat.getDrawable(getContext(), R.drawable.btn_background));
     }
 
     @Override
@@ -70,17 +77,31 @@ public class SudokuGridView extends GridLayout implements ISudokuBoard {
     @Override
     public void setVal(int x, int y, int val){
         board.setVal(x, y, val);
-        setViewValue(x, y, val);
+
+        if(val == 0){
+            setViewValue(x, y, "");
+        } else {
+            setViewValue(x, y, val);
+        }
+
     }
 
-    private void setViewValue(int x, int y, int val){
-        ((Button) getChildAt((y*9) + x)).setText(String.valueOf(val));
+    private void setViewValue(int x, int y, int val) {
+        setViewValue(x, y, String.valueOf(val));
+    }
+
+    private void setViewValue(int x, int y, String val){
+        ((Button) getViewAtPos(x, y)).setText(val);
+    }
+
+    private View getViewAtPos(int x, int y){
+        return getChildAt((y*9) + x);
     }
 
     public void refreshBoard(){
         for (int i = 0; i < board.grid.length; i++) {
             for (int j = 0; j < board.grid[0].length; j++) {
-                setViewValue(i,j, board.getVal(i,j));
+                setVal(i,j, board.getVal(i,j));
             }
         }
     }
