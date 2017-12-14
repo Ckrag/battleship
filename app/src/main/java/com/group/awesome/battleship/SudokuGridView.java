@@ -77,8 +77,21 @@ public class SudokuGridView extends GridLayout implements ISudokuBoard {
         ((Button) getChildAt((y*9) + x)).setText(String.valueOf(val));
     }
 
+    public void refreshBoard(){
+        for (int i = 0; i < board.grid.length; i++) {
+            for (int j = 0; j < board.grid[0].length; j++) {
+                setViewValue(i,j, board.getVal(i,j));
+            }
+        }
+    }
+
     @Override
     public int getVal(int x, int y) {
         return board.getVal(x,y);
+    }
+
+    @Override
+    public SudokuBoard getBoard() {
+        return board;
     }
 }

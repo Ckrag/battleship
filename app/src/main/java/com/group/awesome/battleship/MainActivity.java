@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.List;
+import java.util.Stack;
+
 import static com.group.awesome.battleship.SudokuGridView.SIZE;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout selectorGrid;
 
+    private Stack<Move> moves = new Stack<>();
+
     private View.OnClickListener selectorClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -37,9 +42,23 @@ public class MainActivity extends AppCompatActivity {
 
             // insert number
             int val = (int) view.getTag();
-            sudokuBoard.setVal((int)view.getTag(R.id.X_CORD), (int)view.getTag(R.id.Y_CORD), val);
+
+            int x = (int)view.getTag(R.id.X_CORD);
+            int y = (int)view.getTag(R.id.Y_CORD);
+
+            selectNumber(x, y, val, true);
         }
     };
+
+    private void selectNumber(int x, int y, int val, boolean isInteraction){
+        // remember move
+
+        if(isInteraction){
+            moves.push(new Move(x, y, sudokuBoard.getVal(x, y)));
+        }
+
+        sudokuBoard.setVal(x, y, val);
+    }
 
     private View.OnClickListener gridListener = new View.OnClickListener() {
         @Override
@@ -59,9 +78,20 @@ public class MainActivity extends AppCompatActivity {
         solve_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new SudokuSolver().solve(sudokuBoard.getBoard(), false, 0,0);
+                sudokuBoard.refreshBoard();
             }
         });
         undo_btn = findViewById(R.id.undo_btn);
+        undo_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!moves.empty()){
+                    Move move = moves.pop();
+                    selectNumber(move.x, move.y, move.oldVal, false);
+                }
+            }
+        });
         validate_btn = findViewById(R.id.is_board_valid_btn);
         validate_btn.setOnClickListener(new View.OnClickListener() {
             @Override

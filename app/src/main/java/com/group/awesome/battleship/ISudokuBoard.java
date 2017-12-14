@@ -24,4 +24,5 @@ public interface ISudokuBoard {
 
     public int getVal(int x, int y);
 
+    public SudokuBoard getBoard();
 }
