@@ -1,5 +1,6 @@
 package com.group.awesome.battleship;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -7,13 +8,18 @@ import org.junit.Test;
  */
 
 public class SudokuSolverTest {
+
     @Test
     public void testSolver(){
         SudokuBoard board = new SudokuBoard();
         SudokuSolver solver = new SudokuSolver();
-        board.createBoard(12);
-        System.out.println(board);
-        solver.solve(board,0,0);
-        System.out.println(board);
+        board.createBoard(17);
+        Assert.assertTrue(solver.solve(board,false,0,0));
+        board.createBoard(80);
+        Assert.assertTrue(solver.hasUniqueSolution(board));
+
+        board.setVal(8,8,5);
+        board.setVal(8,7,5);
+        Assert.assertFalse(solver.solve(board,false,0,0));
     }
 }
