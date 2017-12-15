@@ -53,6 +53,11 @@ public class SudokuSolver {
 
 
     public boolean solve(SudokuBoard board,boolean random, int x,int y){
+
+        if (!board.isBoardValid()){
+            return false;
+        }
+
         if (board.isFull()){
             return true;
         }
@@ -70,7 +75,6 @@ public class SudokuSolver {
         for (int n : numbers){
             board.setVal(x,y,n);
             if(board.isValidPlace(x, y)){ // was the move valid?
-                board.setVal(x,y,n);
                 if(solve(board,true,nx,ny)) {
                     return true;
                 }

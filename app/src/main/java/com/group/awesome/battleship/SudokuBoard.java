@@ -36,6 +36,7 @@ public class SudokuBoard {
             int y = ran/9;
             setVal(x,y,0);
         }
+        System.out.println(this);
     }
 
     public boolean isFull(){
