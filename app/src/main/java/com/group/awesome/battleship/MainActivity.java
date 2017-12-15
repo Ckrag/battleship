@@ -197,15 +197,14 @@ public class MainActivity extends AppCompatActivity {
         lp.height = lp.width;
         sudokuBoard.setLayoutParams(lp);
 
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
 
                 Button btn = (Button) LayoutInflater.from(this).inflate(R.layout.grid_btn, null);
                 ViewGroup.LayoutParams btnLp = new ViewGroup.LayoutParams(btn_size, btn_size);
                 btn.setLayoutParams(btnLp);
-                btn.setText(i + " x " + j);
-                btn.setTag(R.id.X_CORD, j);
-                btn.setTag(R.id.Y_CORD, i);
+                btn.setTag(R.id.X_CORD, x);
+                btn.setTag(R.id.Y_CORD, y);
 
                 btn.setOnClickListener(gridListener);
 

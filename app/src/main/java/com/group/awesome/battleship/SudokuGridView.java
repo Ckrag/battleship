@@ -125,9 +125,9 @@ public class SudokuGridView extends GridLayout implements ISudokuBoard {
     }
 
     public void syncBoard(){
-        for (int i = 0; i < board.grid.length; i++) {
-            for (int j = 0; j < board.grid[0].length; j++) {
-                setVal(i,j, board.getVal(i,j));
+        for (int y = 0; y < board.grid.length; y++) {
+            for (int x = 0; x < board.grid[0].length; x++) {
+                setVal(x,y, board.getVal(x,y));
             }
         }
     }
