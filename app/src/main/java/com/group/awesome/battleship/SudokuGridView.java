@@ -49,11 +49,11 @@ public class SudokuGridView extends GridLayout implements ISudokuBoard {
     }
 
     private void refreshLockedPositions(){
-        for (int i = 0; i < board.grid.length; i++) {
-            for (int j = 0; j < board.grid[i].length; j++) {
-                int val = board.getVal(i, j);
-                setVal(i, j, val);
-                if(val > 0) getViewAtPos(i, j).setBackground(ContextCompat.getDrawable(getContext(), R.drawable.btn_background_locked));
+        for (int y = 0; y < board.grid.length; y++) {
+            for (int x = 0; x < board.grid[y].length; x++) {
+                int val = board.grid[y][x];
+                setVal(x, y, val);
+                if(val > 0) getViewAtPos(x, y).setBackground(ContextCompat.getDrawable(getContext(), R.drawable.btn_background_locked));
             }
         }
     }
