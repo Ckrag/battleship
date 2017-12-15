@@ -1,5 +1,7 @@
 package com.group.awesome.battleship;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -48,8 +50,27 @@ public class MainActivity extends AppCompatActivity {
 
             selectNumber(x, y, val, true);
             clearBoardSelections();
+
+            checkWinning();
         }
     };
+
+        private void checkWinning(){
+        if(sudokuBoard.isFull() && sudokuBoard.isBoardValid()){
+            final AlertDialog dialog = new AlertDialog.Builder(this)
+                                        .setMessage("YOU WON")
+                                        .setCancelable(false)
+                                        .setPositiveButton("NEW GAME", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.cancel();
+                                                new_btn.performClick();
+                                            }
+                                        })
+                                        .create();
+            dialog.show();
+        }
+    }
 
     private void selectNumber(int x, int y, int val, boolean isInteraction){
 
@@ -99,9 +120,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // When solving, undoing makes no sense.
-                moves.clear();
-                new SudokuSolver().solve(sudokuBoard.getBoard(), false, 0,0);
-                sudokuBoard.syncBoard();
+
+                if(new SudokuSolver().solve(sudokuBoard.getBoard(), false, 0,0)){
+                    moves.clear();
+                    sudokuBoard.syncBoard();
+                    checkWinning();
+                } else {
+                    Toast.makeText(MainActivity.this, "Can't solve invalid board, try undoing some steps.", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         undo_btn = findViewById(R.id.undo_btn);
