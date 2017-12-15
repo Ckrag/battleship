@@ -54,10 +54,6 @@ public class SudokuSolver {
 
     public boolean solve(SudokuBoard board,boolean random, int x,int y){
 
-        if (!board.isBoardValid()){
-            return false;
-        }
-
         if (board.isFull()){
             return true;
         }
