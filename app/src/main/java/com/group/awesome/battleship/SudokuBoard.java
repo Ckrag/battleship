@@ -30,6 +30,7 @@ public class SudokuBoard {
         SudokuSolver solver = new SudokuSolver();
         solver.solve(this,true,0,0);
         // remove until desired revealed amount. (note that multiple solutions will be possible.
+        System.out.println(this);
         while (getCount() > revealed){
             int ran = new Random().nextInt(80) + 1;
             int x = ran%9;
@@ -116,12 +117,12 @@ public class SudokuBoard {
 
     boolean isValidSquare(int x, int y){
         List<Integer> count = new ArrayList<>();
-        int sqRow = x/3;
-        int sqCol = y/3;
+        int sqCol = x/3;
+        int sqRow = y/3;
         // search section of grid
-        for (int j = sqRow*3; j < sqRow+3; j++){
-            for (int k = sqCol*3; k < sqCol+3; k++){
-                int n = this.grid[j][k];
+        for (int j = sqRow*3; j < sqRow*3 + 3; j++){
+            for (int k = sqCol*3; k < sqCol*3 + 3; k++){
+                int n = getVal(k,j); // k is from col and taken from x value above.
                 if (!count.contains(n)){
                     if (n != 0){ count.add(n); }
                 } else {
