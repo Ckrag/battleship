@@ -1,12 +1,9 @@
-package com.group.awesome.battleship;
+package com.group.awesome.sudoku;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 

@@ -1,4 +1,4 @@
-package com.group.awesome.battleship;
+package com.group.awesome.sudoku;
 
 import junit.framework.Assert;
 

@@ -1,8 +1,4 @@
-package com.group.awesome.battleship;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+package com.group.awesome.sudoku;
 
 /**
  * Created by root on 12/6/17.

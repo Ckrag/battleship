@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.group.awesome.battleship.MainActivity">
+    tools:context="com.group.awesome.sudoku.MainActivity">
 
-    <com.group.awesome.battleship.SudokuGridView
+    <com.group.awesome.sudoku.SudokuGridView
         android:id="@+id/board_grid"
         android:layout_width="match_parent"
         android:layout_height="40dp"

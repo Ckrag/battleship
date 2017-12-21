@@ -1,6 +1,5 @@
-package com.group.awesome.battleship;
+package com.group.awesome.sudoku;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**

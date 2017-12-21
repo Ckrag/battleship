@@ -1,4 +1,4 @@
-package com.group.awesome.battleship;
+package com.group.awesome.sudoku;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.Stack;
 
-import static com.group.awesome.battleship.SudokuGridView.SIZE;
+import static com.group.awesome.sudoku.SudokuGridView.SIZE;
 
 public class MainActivity extends AppCompatActivity {
 

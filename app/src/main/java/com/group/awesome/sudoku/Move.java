@@ -1,4 +1,4 @@
-package com.group.awesome.battleship;
+package com.group.awesome.sudoku;
 
 /**
  * Created by root on 12/14/17.

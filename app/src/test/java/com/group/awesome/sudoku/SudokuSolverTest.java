@@ -1,4 +1,4 @@
-package com.group.awesome.battleship;
+package com.group.awesome.sudoku;
 
 import org.junit.Assert;
 import org.junit.Test;

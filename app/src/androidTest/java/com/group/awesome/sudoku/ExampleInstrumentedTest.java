@@ -1,4 +1,4 @@
-package com.group.awesome.battleship;
+package com.group.awesome.sudoku;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.group.awesome.battleship", appContext.getPackageName());
+        assertEquals("com.group.awesome.sudoku", appContext.getPackageName());
     }
 }
